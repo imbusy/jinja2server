@@ -16,7 +16,7 @@ def application(env, start_response):
     path = 'index.html'
   path = path.replace('..', '')
 
-  if os.path.exists('/home/web/templates'+path):
+  if os.path.isdir('/home/web/templates'+path):
     # this is a directory name - return files as json array
     start_response('200 OK', [('Content-Type','application/json')])  
     return [json.dumps(sorted(os.listdir('/home/web/templates'+path))).encode('utf-8')]
