@@ -2,6 +2,7 @@ from collections import namedtuple
 from wsgiref.util import request_uri
 from urllib.parse import urlparse, parse_qs
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
+import xml.etree.ElementTree as ET
 import json
 import os
 
@@ -11,9 +12,13 @@ def listdir(name):
 def jsonfile(name):
   return json.loads(open('/home/web/templates/' + name, 'r', encoding='utf-8').read())
 
+def xmlfile(name):
+  return ET.fromstring(open('/home/web/templates/' + name, 'r', encoding='utf-8').read())
+
 templates = Environment(loader=FileSystemLoader('/home/web/templates'), auto_reload=True)
 templates.globals['listdir'] = listdir
 templates.globals['json'] = jsonfile
+templates.globals['xml'] = xmlfile
 
 def application(env, start_response):
   URI = request_uri(env)
