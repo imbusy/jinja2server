@@ -5,7 +5,15 @@ from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 import json
 import os
 
+def listdir(name):
+  return os.listdir('/home/web/templates/' + name)
+
+def jsonfile(name):
+  return json.loads(open('/home/web/templates/' + name, 'r', encoding='utf-8').read())
+
 templates = Environment(loader=FileSystemLoader('/home/web/templates'), auto_reload=True)
+templates.globals['listdir'] = listdir
+templates.globals['json'] = jsonfile
 
 def application(env, start_response):
   URI = request_uri(env)
